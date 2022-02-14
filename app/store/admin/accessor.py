@@ -1,9 +1,11 @@
 import typing
 from hashlib import sha256
 from typing import Optional
+import base64
+from asyncpg import UniqueViolationError
 
 from app.base.base_accessor import BaseAccessor
-from app.admin.models import Admin, AdminModel
+from app.admin.models import Admin, AdminModel, ConnectInfo
 
 if typing.TYPE_CHECKING:
     from app.web.app import Application
@@ -23,12 +25,13 @@ class AdminAccessor(BaseAccessor):
         return None
 
     async def create_admin(self, email: str, password: str) -> Optional[Admin]:
-        admin = self.get_by_email(password)
-        if admin is None:
-            admin = await AdminModel.create(email=email, password=self._hash_password(password))
-            return admin
-        return None
+        try:
+            admin = await AdminModel.create(email=email, password=sha256(password.encode()).hexdigest())
+        except UniqueViolationError:
+            return None
 
-    @staticmethod
-    async def _hash_password(password):
-        return sha256(password.encode('utf-8')).hexdigest()
+        return admin
+
+    async def _on_connect(self):
+        await ConnectInfo.create()
+

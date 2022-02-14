@@ -22,6 +22,12 @@ class Admin:
 class AdminModel(db.Model):
     __tablename__ = "admins"
 
-    id = db.Column(db.String(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)
     email = db.Column(db.Unicode(), nullable=False, unique=True)
     password = db.Column(db.Unicode(), nullable=False)
+
+
+class ConnectInfo(db.Model):
+    __tablename__ = "connections"
+    id = db.Column(db.Integer(), primary_key=True)
+    connect_time = db.Column(db.DateTime(), server_default='now()')
