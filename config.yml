@@ -1,7 +1,7 @@
-user_token: вставьте_ваш_токен_вместо_этой_строки
+user_token: NmE0YzRjMzEtNTM2Zi00NDY5LThmNzItZTE1YmE2MTZkNGE4XzE0MDY=
 
 session:
-  key: key_to_generate
+  key: 0Cfjh1HtiktZkWMgmw3cyQif1V5J2PnsAaCQHdy4yws=
 admin:
   email: admin@admin.com
   password: admin
@@ -12,7 +12,7 @@ database:
   password: postgres
   database: postgres
 bot:
-  token: group_token
-  group_id: 1
+  token: a9d023ca6b5b1405b7df7009668ba51065785743d4d83773ddbf7b6d05db08c5954bf06f6a176bc696949
+  group_id: 45382531
 
 

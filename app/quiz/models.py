@@ -9,16 +9,27 @@ class Theme:
     id: Optional[int]
     title: str
 
-# TODO
-# Дописать все необходимые поля модели
+
 class ThemeModel(db.Model):
     __tablename__ = "themes"
 
-# TODO
-# Дописать все необходимые поля модели
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(), unique=True, nullable=False)
+
+
+@dataclass
+class Answer:
+    title: str
+    is_correct: bool
+
+
 class AnswerModel(db.Model):
     __tablename__ = "answers"
 
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(), nullable=False)
+    is_correct = db.Column(db.Boolean(), nullable=False)
+    question_id = db.Column(db.Integer(), db.ForeignKey('questions.id', ondelete='CASCADE'), nullable=False)
 
 
 @dataclass
@@ -28,13 +39,10 @@ class Question:
     theme_id: int
     answers: list["Answer"]
 
-# TODO
-# Дописать все необходимые поля модели
+
 class QuestionModel(db.Model):
     __tablename__ = "questions"
 
-
-@dataclass
-class Answer:
-    title: str
-    is_correct: bool
+    id = db.Column(db.Integer(), primary_key=True, nullable=False)
+    title = db.Column(db.String(), unique=True, nullable=False)
+    theme_id = db.Column(db.Integer(), db.ForeignKey('themes.id', ondelete='CASCADE'), nullable=False)

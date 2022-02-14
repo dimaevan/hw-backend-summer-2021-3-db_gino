@@ -11,7 +11,7 @@ class Database:
 
     def __init__(self, app: "Application"):
         self.app = app
-        self.db: Optional[Gino] = None
+        self.db: Optional[Gino] = db
 
     async def connect(self, *_, **kw):
         self._engine = await gino.create_engine(
@@ -30,5 +30,4 @@ class Database:
         self.db.bind = self._engine
 
     async def disconnect(self, *_, **kw):
-        raise NotImplementedError
-
+        pass

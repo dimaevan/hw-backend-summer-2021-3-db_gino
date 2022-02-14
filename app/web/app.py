@@ -16,6 +16,7 @@ from app.web.config import Config, setup_config
 from app.web.logger import setup_logging
 from app.web.middlewares import setup_middlewares
 from app.web.routes import setup_routes
+from dotenv import load_dotenv
 
 
 class Application(AiohttpApplication):
@@ -50,6 +51,7 @@ app = Application()
 
 
 def setup_app(config_path: str) -> Application:
+    load_dotenv()
     setup_logging(app)
     setup_config(app, config_path)
     session_setup(app, EncryptedCookieStorage(app.config.session.key))
