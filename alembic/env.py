@@ -15,10 +15,8 @@ with open(os.environ['CONFIGPATH']) as fh:
     db_config = DatabaseConfig(**raw_cfg['database'])
 
 
-
-def set_sqlalchemy_url(host: str, db: str):
-    config.set_main_option("sqlalchemy.url", f"postgres://{host}/{db}")
-
+def set_sqlalchemy_url(host: str, db: str, user:str, password:str):
+    config.set_main_option("sqlalchemy.url", f"postgres://{user}:{password}@{host}/{db}")
 
 
 # this is the Alembic Config object, which provides
@@ -53,7 +51,7 @@ def run_migrations_offline():
     script output.
 
     """
-    set_sqlalchemy_url(db_config.host, db_config.database)
+    set_sqlalchemy_url(db_config.host, db_config.database, db_config.user, db_config.password)
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
@@ -73,7 +71,7 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    set_sqlalchemy_url(db_config.host, db_config.database)
+    set_sqlalchemy_url(db_config.host, db_config.database, db_config.user, db_config.password)
     connectable = engine_from_config(
         config.get_section(config.config_ini_section),
         prefix="sqlalchemy.",
